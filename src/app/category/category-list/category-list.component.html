@@ -1,1 +1,10 @@
-<p>category-list works!</p>
+<!-- <p>Category list - {{ categories | json }}</p> -->
+<div class="bg-white px-4 py-12 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-4xl">
+    <ng-container *ngFor="let category of categories; trackBy: trackCategoryById; let index;">
+      <ul role="list" class="divide-y divide-gray-100">
+        <app-category-card [categoryTitle]="categoryTitle" [category]="category" (handleCategoryEvents)="handleCategoryEvents($event)"></app-category-card>
+      </ul>
+    </ng-container>
+  </div>
+</div>

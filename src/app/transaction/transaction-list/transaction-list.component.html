@@ -1,1 +1,40 @@
-<p>transaction-list works!</p>
+<div class="mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
+  <div class="mx-auto max-w-4xl">
+    <div class="flex my-4 items-center">
+      <h2 class="text-lg">Transaction List</h2>
+      <button id="add-new" class="add-new" class="rounded-md bg-lime-200 px-2 py-2 ml-2" (click)="goToAddNewTransaction()">New</button>
+    </div>
+    <table class="border-collapse table-auto w-full text-sm">
+      <thead>
+        <tr>
+          <th [ngClass]="tableHeaderClass">Name</th>
+          <th [ngClass]="tableHeaderClass">Description</th>
+          <th [ngClass]="tableHeaderClass">Date</th>
+          <th [ngClass]="tableHeaderClass">Amount</th>
+          <th [ngClass]="tableHeaderClass">Type</th>
+          <th [ngClass]="tableHeaderClass" colspan="3">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white dark:bg-slate-800">
+        <tr *ngFor="let transaction of transactions; trackBy: trackByFn" (click)="handleEvent($event)">
+          <td [ngClass]="tableDataClass">{{ transaction?.name }}</td>
+          <td [ngClass]="tableDataClass">{{ transaction?.description }}</td>
+          <td [ngClass]="tableDataClass">{{ transaction?.date | date: 'longDate' }}</td>
+          <td [ngClass]="tableDataClass">{{ transaction?.amount | currency }}</td>
+          <td [ngClass]="tableDataClass">{{ (transaction?.type === 'I') ? 'Income' : 'Expense' }}</td>
+          <td [ngClass]="tableDataClass">
+            <button id="view" name="view" [attr.data-id]="transaction?.id" [attr.data-action]="'view'" class="rounded-md bg-lime-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-lime-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime-600">View</button>
+          </td>
+          <td [ngClass]="tableDataClass">
+            <button id="edit" name="edit" [attr.data-id]="transaction?.id" [attr.data-action]="'edit'" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Edit</button>
+          </td>
+          <td [ngClass]="tableDataClass">
+            <button id="delete" name="delete" [attr.data-id]="transaction?.id" [attr.data-action]="'delete'" class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+</div>

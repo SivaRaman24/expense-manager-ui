@@ -1,1 +1,9 @@
-<p>transaction-detail works!</p>
+<div class="my-4">
+  <h2>Transaction Details</h2>
+  <p>Name: {{ transaction?.name }}</p>
+  <p>Amount: {{ transaction?.amount | currency }}</p>
+  <p>Type: {{ transaction?.type === "I" ? "Income" : "Expense" }}</p>
+  <p>Category: {{ transaction?.date | date: 'longDate' }}</p>
+  <p>Category: {{ transaction?.category?.name }}</p>
+  <p>Description: {{ transaction?.description }}</p>
+</div>

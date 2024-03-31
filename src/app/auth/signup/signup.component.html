@@ -1,3 +1,7 @@
+<div class="alert" *ngIf="signupForm.submitted">
+  <p class="alert-success" *ngIf="isSignupSuccess">Thanks for signing up!</p>
+  <p class="alert-error" *ngIf="!isSignupSuccess">There is an error while registering the user!</p>
+</div>
 <form #signupForm="ngForm" (ngSubmit)="signup()">
   <div class="form-group">
     <label for="firstName">FirstName</label>
@@ -18,6 +22,10 @@
   <div class="form-group">
     <label for="confirmPassword">Confirm Password</label>
     <input type="password" id="confirmPassword" class="form-control" name="confirmPassword" [(ngModel)]="user.confirmPassword" />
+  </div>
+  <div class="form-group">
+    <label for="mobileNumber">Mobile Number</label>
+    <input type="text" id="mobileNumber" class="form-control" name="mobileNumber" [(ngModel)]="user.mobileNumber" />
   </div>
 
   <button type="submit" class="btn btn-default">Signup</button>

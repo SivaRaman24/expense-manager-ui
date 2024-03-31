@@ -1,1 +1,42 @@
-<p>Creadit Edit Transaction Component</p>
+<!-- this.transactionForm = new FormGroup({
+  name: new FormControl('', [Validators.required]),
+  description: new FormControl(''),
+  amount: new FormControl('', [Validators.required]),
+  date: new FormControl('', [Validators.required]),
+  type: new FormControl('', [Validators.required]),
+  categoryId: new FormControl('', [Validators.required])
+}); -->
+<form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+  <div class="form-control">
+    <label for="transactionName">Name</label>
+    <input type="text" name="transactionName" id="transactionName" formControlName="name">
+  </div>
+  <div class="form-control">
+    <label for="description">Description</label>
+    <textarea name="description" id="description" cols="30" rows="10" formControlName="description"></textarea>
+  </div>
+  <div class="form-control">
+    <label for="amount">Amount</label>
+    <input type="number" name="amount" id="amount" formControlName="amount">
+  </div>
+  <div class="form-control">
+    <label for="transaction-date"></label>
+    <input type="date" name="transaction-date" id="transaction-date" formControlName="date">
+  </div>
+  <div class="form-control">
+    <label for="type">Type</label>
+    <input type="radio" value="E" id="expense" formControlName="type">
+    <label for="expense">Expense</label>
+    <input type="radio" value="I" id="income" formControlName="type">
+    <label for="income">Income</label>
+  </div>
+  <div class="form-control">
+    <label for="categoryId">Select Category</label>
+    <select name="categoryId" id="categoryId" formControlName="categoryId">
+      <option value="">Select Options</option>
+      <option value="{{category.id}}" *ngFor="let category of categories | async">{{ category.name }}</option>
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>

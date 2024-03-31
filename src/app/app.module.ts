@@ -1,30 +1,26 @@
-import { NgModule } from '@angular/core';
+import { DEFAULT_CURRENCY_CODE, ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthModule } from './auth/auth.module';
-import { TransactionModule } from './transaction/transaction.module';
-import { CategoryModule } from './category/category.module';
-import { UserRoutingModule } from './user/user-routing.module';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { AuthInterceptor } from './auth/auth.interceptor';
+import { CoreModule } from './core/core.module';
+import { ExceptionService } from './core/services/ExceptionService';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    PageNotFoundComponent
-  ],
+  declarations: [AppComponent],
   imports: [
-    AppRoutingModule,
     BrowserModule,
-    AuthModule,
-    CategoryModule,
-    TransactionModule,
-    UserRoutingModule,
-    HttpClientModule
+    AppRoutingModule,
+    HttpClientModule,
+    CoreModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: DEFAULT_CURRENCY_CODE, useValue: 'INR' },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: ErrorHandler, useClass: ExceptionService },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
