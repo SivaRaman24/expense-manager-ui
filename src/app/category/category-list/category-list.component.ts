@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { CategoryService } from '../category.service';
 import { Category, CategoryEvent } from '../model/category.items';
 
@@ -11,21 +13,11 @@ import { Category, CategoryEvent } from '../model/category.items';
 export class CategoryListComponent implements OnInit, OnDestroy {
   categoryTitle: string;
   categories: Array<Category>;
-  timer: any;
-  timer2: any;
-  timer3: any;
 
-  constructor(private categoryService: CategoryService, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(private router: Router, private categoryService: CategoryService, private changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    // console.log('CategoryListComponent');
     this.getCategories();
-
-    this.timer = setTimeout(() => {
-      // console.log('Timeout - adding additional category');
-      this.categories.push({ id: 'test', name: 'Test category', isDefault: false });
-      this.changeDetectorRef.markForCheck();
-    }, 3000);
   }
 
   trackCategoryById(index: number, category: Category) {
@@ -36,7 +28,6 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     this.categoryService.getCategories().subscribe((res: Array<Category>) => {
       this.categories = [...res];
       this.changeDetectorRef.markForCheck();
-      // console.log('this.categories', this.categories);
     });
   }
 
@@ -56,35 +47,24 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     }
   }
 
+  goToAddNewCategory() {
+    this.router.navigate(['categories/create']);
+  }
+
   viewCategory(id: string | undefined) {
-    console.log('View Category', id);
     // this.categoryTitle = this.categories[0].name + '_' + id;
     this.categories[0].name = 'Updated category name';
   }
 
   editCategory(id: string | undefined) {
-    console.log('Edit Category', id);
-    this.categories[0].name = 'Updated category name';
-    this.timer2 = setTimeout(() => {
-      this.changeDetectorRef.markForCheck();
-    }, 100);
+    this.router.navigate([`/categories/edit/${id}`])
   }
 
   deleteCategory(id: string | undefined) {
-    console.log('Delete Category', id);
     this.categories.pop();
-    this.timer3 = setTimeout(() => {
-      this.changeDetectorRef.markForCheck();
-    }, 100);
+    this.changeDetectorRef.markForCheck();
   }
 
-  // ngDoCheck() {
-  //   console.log('Category List Component - doCheck');
-  // }
-
   ngOnDestroy(): void {
-    clearTimeout(this.timer);
-    clearTimeout(this.timer2);
-    clearTimeout(this.timer3);
   }
 }

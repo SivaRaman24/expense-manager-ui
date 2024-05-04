@@ -18,7 +18,7 @@ export class CategoryCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log('CategoryCardComponent');
+    // console.log('CategoryCardComponent');
   }
 
   view() {

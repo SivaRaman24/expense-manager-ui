@@ -6,37 +6,67 @@
   type: new FormControl('', [Validators.required]),
   categoryId: new FormControl('', [Validators.required])
 }); -->
-<form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
-  <div class="form-control">
-    <label for="transactionName">Name</label>
-    <input type="text" name="transactionName" id="transactionName" formControlName="name">
-  </div>
-  <div class="form-control">
-    <label for="description">Description</label>
-    <textarea name="description" id="description" cols="30" rows="10" formControlName="description"></textarea>
-  </div>
-  <div class="form-control">
-    <label for="amount">Amount</label>
-    <input type="number" name="amount" id="amount" formControlName="amount">
-  </div>
-  <div class="form-control">
-    <label for="transaction-date"></label>
-    <input type="date" name="transaction-date" id="transaction-date" formControlName="date">
-  </div>
-  <div class="form-control">
-    <label for="type">Type</label>
-    <input type="radio" value="E" id="expense" formControlName="type">
-    <label for="expense">Expense</label>
-    <input type="radio" value="I" id="income" formControlName="type">
-    <label for="income">Income</label>
-  </div>
-  <div class="form-control">
-    <label for="categoryId">Select Category</label>
-    <select name="categoryId" id="categoryId" formControlName="categoryId">
-      <option value="">Select Options</option>
-      <option value="{{category.id}}" *ngFor="let category of categories | async">{{ category.name }}</option>
-    </select>
-  </div>
+<div class="flex justify-center items-center">
+  <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()" class="p-8 border rounded-md border-slate-100 bg-transparent bg-gray-100">
+    <div class="grid grid-cols-1 gap-x-6 gap-y-8">
+      <div>
+        <h2 class="text-base font-semibold leading-7 text-gray-900">{{isEdit ? 'Edit Transaction' : 'Create Transaction'}}</h2>
+        <p class="mt-1 text-sm leading-6 text-gray-600">{{isEdit ? 'Update the transaction details below' : 'Provide the details below to create the transaction'}}</p>
+      </div>
+      <div [ngClass]="inputWrapperClass">
+        <label for="transactionName" [ngClass]="labelClass" class="col-span-1">Name</label>
+        <div class="col-span-5">
+          <input type="text" name="transactionName" id="transactionName" formControlName="name" [ngClass]="inputClass" >
+        </div>
+      </div>
+      <div [ngClass]="inputWrapperClass">
+        <label for="description" [ngClass]="labelClass">Description</label>
+        <div class="mt-2 col-span-5">
+          <textarea name="description" id="description" rows="3" formControlName="description" [ngClass]="inputClass"></textarea>
+        </div>
+      </div>
+      <div [ngClass]="inputWrapperClass">
+        <label for="amount" [ngClass]="labelClass">Amount</label>
+        <div class="mt-2 col-span-5">
+          <input type="number" name="amount" id="amount" formControlName="amount" [ngClass]="inputClass">
+        </div>
+      </div>
+      <div [ngClass]="inputWrapperClass">
+        <label for="transaction-date" [ngClass]="labelClass">Date</label>
+        <div class="mt-2 col-span-5">
+          <input type="date" name="transaction-date" id="transaction-date" formControlName="date" [ngClass]="inputClass">
+        </div>
+      </div>
+      <div [ngClass]="inputWrapperClass">
+        <legend [ngClass]="labelClass">Type</legend>
+        <fieldset  class="col-span-5">
+          <div>
+            <p class="mt-1 text-sm leading-6 text-gray-600">Select the transaction type</p>
+            <div class="mt-2 space-y-2">
+              <div class="flex items-center gap-x-1">
+                <input id="expense" name="type" type="radio" value="E" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" formControlName="type">
+                <label for="expense" [ngClass]="labelClass">Expense</label>
+              </div>
+              <div class="flex items-center gap-x-1">
+                <input id="income" name="type" type="radio" value="I" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" formControlName="type">
+                <label for="income" [ngClass]="labelClass">Income</label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <div [ngClass]="inputWrapperClass">
+        <label for="categoryId" [ngClass]="labelClass">Select Category</label>
+        <select name="categoryId" id="categoryId" formControlName="categoryId" [ngClass]="inputClass" class="col-span-5">
+          <option value="">Select Options</option>
+          <option value="{{category.id}}" *ngFor="let category of categories | async">{{ category.name }}</option>
+        </select>
+      </div>
+    </div>
 
-  <button type="submit" class="btn btn-default">Submit</button>
-</form>
+    <div class="mt-6 flex items-center justify-end gap-x-6">
+      <button type="button" class="text-sm font-semibold leading-6 text-gray-900" (click)="goToTransactionList()">Cancel</button>
+      <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+    </div>
+  </form>
+</div>

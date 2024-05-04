@@ -10,16 +10,16 @@ const routes: Routes = [
     component: CategoryListComponent
   },
   {
-    path: ':id',
-    component: CategoryDetailComponent
-  },
-  {
     path: 'create',
     component: CreateEditCategoryComponent
   },
   {
     path: 'edit/:id',
     component: CreateEditCategoryComponent
+  },
+  {
+    path: ':id',
+    component: CategoryDetailComponent
   },
 ];
 

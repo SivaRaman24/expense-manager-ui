@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { User } from '../user/model/user.interface';
-import { catchError, tap, throwError } from 'rxjs';
+import { Observable, catchError, tap, throwError } from 'rxjs';
+import { LoginResponse } from './model/loginResponse';
 
 @Injectable({
   providedIn: 'root',
@@ -44,19 +45,20 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    console.log(email, password);
     const authDetails = {
       email,
       password,
     };
     return this.httpClient
-      .post<{authToken: string}>(`${this.API_BASE_URL}/login`, authDetails)
-      .pipe(
-        tap((data) => {
-          this.isLoggedIn = true;
-        }),
-        catchError(this.handleError)
-      );
+      .post<LoginResponse>(`${this.API_BASE_URL}/login`, authDetails)
+    // return this.httpClient
+    //   .post<LoginResponse>(`${this.API_BASE_URL}/login`, authDetails)
+    //   .pipe(
+    //     tap((data) => {
+    //       this.isLoggedIn = true;
+    //     }),
+    //     catchError(this.handleError)
+    //   );
   }
 
   signUp(userDetails: User) {
@@ -67,7 +69,8 @@ export class AuthService {
   }
 
   handleError(error: HttpErrorResponse) {
-    this.isLoggedIn = false;
+    console.log('Handle Error', error);
+    // this.isLoggedIn = false;
     if (error.status === 0) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error);
